@@ -1,36 +1,33 @@
-
 "##################################################################[Plugin manager]
-" http://www.cnblogs.com/songfy/p/5635757.html 
+" http://www.cnblogs.com/songfy/p/5635757.html
+set nocompatible
+filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 
 call vundle#begin()
 
 " Plugin 'Yggdroot/LeaderF'
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'tacahiroy/ctrlp-funky'
+Plugin 'VundleVim/Vundle.vim'     "VIM插件管理插件
 Plugin 'tpope/vim-fugitive'
 Plugin 'vim-scripts/winmanager'
 Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
-Plugin 'kien/ctrlp.vim'
 Plugin 'wincent/command-t'
-Plugin 'scrooloose/nerdtree'
-Plugin 'majutsushi/tagbar'
-Plugin 'jiangmiao/auto-pairs'
-Plugin 'minibufexpl.vim'
-Plugin 'jlanzarotta/bufexplorer'
-Plugin 'taglist.vim' 
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'godlygeek/tabular'
+Plugin 'scrooloose/nerdtree'      "目录树插件
+Plugin 'majutsushi/tagbar'        "标签栏插件
+Plugin 'jiangmiao/auto-pairs'     "括号自动匹配插件
+Plugin 'jlanzarotta/bufexplorer'  "缓冲文件查看器插件
+Plugin 'scrooloose/nerdcommenter' "快捷添加程序注释
+Plugin 'godlygeek/tabular'        "文本对齐插件
 Plugin 'plasticboy/vim-markdown'
 Plugin 'portante/cscope'
-Plugin 'tomasr/molokai'
-Plugin 'yegappan/mru'
-Plugin 'rking/ag.vim'
+Plugin 'tomasr/molokai'           "molokai配色方案
+Plugin 'yegappan/mru'             "历史文件记录
+Plugin 'kien/ctrlp.vim'           "模糊搜索
+Plugin 'mileszs/ack.vim'          "ack搜索
+Plugin 'rking/ag.vim'             "Ag搜索（类似于ack）
 Plugin 'altercation/vim-colors-solarized'
-
 Plugin 'fatih/vim-go'
 Plugin 'Lokaltog/vim-distinguished'
-
 "Plugin 'Valloric/YouCompleteMe' "NEED VIM8.0+ & PYTHON3.5+ support.
 "Plugin 'vim/vim' "vim8.0+
 
@@ -42,10 +39,7 @@ set modelines=0
 set backspace=2 "设置更好的删除
 syntax on "语法高亮
 set noswapfile
-"autocmd InsertLeave * se nocul "用浅色高亮当前行
-"autocmd InsertEnter * se cul
 set cul
-set paste
 set smartindent "智能对齐
 set autoindent "自动对齐
 set confirm "在处理未保存或只读文件的时候，弹出确认框
@@ -71,7 +65,7 @@ set ruler "在编辑过程中，在右下角显示光标位置的状态行
 set laststatus=1  "总是显示状态行
 set showcmd "在状态行显示目前所执行的命令，未完成的指令片段也会显示出来
 set scrolloff=3 "光标移动到buffer的顶部和底部时保持3行的距离
-"set showmatch "高亮显示对应的括号
+set showmatch "高亮显示对应的括号
 set matchtime=5 "对应括号高亮时间(单位是十分之一秒)
 set autowrite "在切换buffer时自动保存当前文件
 set wildmenu  "增强模式中的命令行自动完成操作
@@ -88,9 +82,8 @@ set magic  "设置魔术？神马东东
 set ignorecase "搜索忽略大小写
 "filetype on "打开文件类型检测功能
 
-set foldmethod=syntax "使用语法高亮定义代码折叠: zc 折叠, zo 展开
+set foldmethod=indent "indent:缩进代表更高级别的折叠 syntax:用语法高亮定义代码折叠: zc 折叠, zo 展开
 set foldlevelstart=99 "打开文件是默认不折叠代码
-set fdm=indent 
 
 "set mouse= "鼠标默认值
 "set number "显示行号
@@ -100,8 +93,6 @@ set fdm=indent
 " :cd   改变vim的当前工作路径
 " :lcd  改变当前窗口的工作路径
 " :pwd  查看当前的工作路径
-
-behave mswin 
 
 if has("autocmd")                                                                                                          
     au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif                             
@@ -116,26 +107,23 @@ if has("autocmd")
     au BufRead,BufNewFile *.log set filetype=c 
 endif 
 "##################################################################[auto exec cmds]
-"autocmd VimEnter * TagbarToggle "auto start cmd
-"autocmd VimEnter * WMToggle "auto start cmd
+"autocmd VimEnter * TagbarToggle   "auto start cmd
 "autocmd VimEnter * NERDTree "auto start cmd
 
 "default themes
 autocmd VimEnter * call UserFunctionSwitch(6)
 
- " default show line number
-autocmd VimEnter * call UserFunctionSwitch(0)
+"default show line number
+"autocmd VimEnter * call UserFunctionSwitch(0)
 
-" default enable mouse
-autocmd VimEnter * call UserFunctionSwitch(1)
+"default enable mouse
+"autocmd VimEnter * call UserFunctionSwitch(1)
 
-"Open Nerdtree when start vim with no argument
-if argc() == 0 && !exists("s:std_in")
-"    autocmd VimEnter * WMToggle
-endif
+"Open Nerdtree when start vim with no files
+"autocmd StdinReadPre * let s:std_in=1
+"autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
-
-autocmd BufNewFile * call UserFunctionSwitch(52)
+"autocmd BufNewFile * call UserFunctionSwitch(52)
 
 "##################################################################[ctags]
 " Press F5 to update make ctags.
@@ -148,35 +136,39 @@ let g:Newpwd = getcwd()
 let g:Newpwd = "~/.ctags/" . substitute(g:Newpwd, "/", "_", "g")
 
 let settag = "set tags=" . g:Newpwd . "/tags"
-"echo settag
+"echom settag
 exec settag
 
 let g:argc = argc()
 let g:argv = argv(0)
-"echo "argv:" g:argv "argc:" g:argc  
+"echom "argv:" g:argv "argc:" g:argc
 
 if (expand(g:argv) == expand("clean")) 
     let g:clean = 1
-    echo "clean all session.vim.."
+    echom "clean all session.vim.."
     silent :!~/.vim/shell/del.sh
 endif
-
-
 "##################################################################[key map]
-nmap 1 : bp <cr>
-nmap 2 : bn <cr>
-nmap <Leader>1 : bd <cr>
-nmap <Leader>3 : PluginInstall <cr>
+"nmap <Leader>3 : PluginInstall <cr>
+"nmap 4 : cp <cr>
+"nmap 3 : cn <cr>
 
-nmap 3 : cn <cr>
-nmap 4 : cp <cr>
+"buffer option
+nmap _ : bprev <cr>
+nmap + : bnext <cr>
+nmap ) : bdelete <cr>
 
-nmap 5 <C-]>
-nmap <silent> <F5> <C-o>
+"括号匹配
+inoremap ( ()<ESC>i
+inoremap { {}<ESC>i
+inoremap [ []<ESC>i
+inoremap < <><ESC>i
 
-nmap 6 <C-o>
-
-nmap 7 <C-i>
+"多窗口移动
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-h> <C-W>h
+map <C-l> <C-W>l
 
 "行号切换
 map <silent> <F2> : call UserFunctionSwitch(0) <CR>
@@ -185,34 +177,30 @@ nmap <silent> <Leader><F2> : call UserFunctionSwitch(1) <CR>
 
 "neadtree
 nmap <silent> <Leader><F3> : call UserFunctionSwitch(2) <CR>
+
 "tagbarlist
 nmap <silent> <F3> : call UserFunctionSwitch(3) <CR>
 
 "mru, file open history record
-" nmap <silent> <Leader><F4> : call UserFunctionSwitch(4) <CR>
-" ctrlpFunky
-nmap <silent> <Leader><F4> : exec 'CtrlPFunky' <CR>
-nmap <silent> <Leader>fu : exec 'CtrlPFunky ' . expand('<cword>') <CR>
+nmap <silent> <Leader><F4> : call UserFunctionSwitch(4) <CR>
+
 "file search
 nmap <silent> <F4> : exec "CtrlP ." <CR>
 
 "make source tags
-nmap <silent> <Leader><F5> : call UserFunctionSwitch(5) <CR>
-" nmap <silent> <Leader><F5> : call UserFunctionSwitch(51) <CR>
+nmap <silent> <F5> : call UserFunctionSwitch(5) <CR>
+nmap <silent> <Leader><F5> : call UserFunctionSwitch(51) <CR>
 
-"miniBuf
-nmap <silent> <Leader><F6> : call UserFunctionSwitch(70) <CR>
 "buf exploler
 nmap <silent> <F6> : call UserFunctionSwitch(7) <CR>
-nmap <silent> 9 : call UserFunctionSwitch(7) <CR>
 
 "quickfix 
 nmap <silent> <F7> : call UserFunctionSwitch(8) <CR>
 "nmap <silent> 8 : call UserFunctionSwitch(80) <CR>
 "nmap <silent> 9 : call UserFunctionSwitch(81) <CR>
+
 "themes switch
 nmap <silent> <Leader><F7> : call UserFunctionSwitch(6) <CR>
-
 nmap <silent> <F8> : call UserFunctionSwitch(50) <CR>
 nmap <silent> <F9> : :w <CR>
 
@@ -223,18 +211,15 @@ nmap <Leader>q : q <CR>
 nmap <Leader>qa : qall <CR>
 
 " ag
-
 nmap :ag : Ag -i <Space>
 nmap :af : AgFile -i <Space>
 
-" quit all & save session.vim.
+" quit all & save session.vim
 nmap <F12> : call UserFunctionSwitch(30) <CR>
-nmap :qs : call UserFunctionSwitch(30) <cr>
+nmap <Leader>qs : call UserFunctionSwitch(30) <cr>
 nmap <Leader>wq : wq <CR>
 nmap <Leader>w : w <CR>
-nmap :W : w <CR>
-imap :w : :w <CR>
-nmap <Leader>rn : %s/\r//g <CR> "替换^Ｍ
+nmap <Leader>re : %s/O/N/g "替换^Ｍ
 nmap <Leader>rs : call LeaveHandler() <Space> 
 
 " cscope
@@ -244,26 +229,23 @@ nmap cf : cscope find f <Space>
 nmap cg : cscope find g <Space>
 nmap cs : cscope find s <Space>
 nmap ct : cscope find t <Space>
-"##################################################################[function]
-let g:userFuncSwitch = 1
+"####################"##############################################[function]
 let g:line_number_show = 0
 let g:mouse_enable = 0
 let g:window_flag = 1
 let g:MRU_flag = 0
 let g:themes_flag = 1
 let g:ctags = ""
-
 let g:quickfix = 0
 
 function! UserFunctionSwitch(cmd)
-let g:userFuncSwitch = a:cmd
 exec ":syntax on"
 
 if a:cmd == 0
     if g:line_number_show == 0
         exec 'set nu'
         let g:line_number_show = 1
-        echo 'Show line number!'
+        echom 'Show line number!'
     else
         exec 'set nonu'
         let g:line_number_show = 0
@@ -275,17 +257,17 @@ if a:cmd == 1
     if g:mouse_enable == 0
         let g:mouse_enable = 1
         exec 'set mouse=n' 
-        echo 'enable mouse'
+        echom 'enable mouse'
     else
         let g:mouse_enable = 0 
        exec 'set mouse='
-        echo 'disable mouse'
+        echom 'disable mouse'
     endif
     return
 endif
 
 if a:cmd == 2
-    exec 'WMToggle'
+    exec 'NERDTreeToggle'
     return
 endif
 
@@ -307,44 +289,16 @@ if a:cmd == 4
 endif
 
 if a:cmd == 5
-    echo "Start make tag.."
+    echom "Start make tag.."
     let g:time1 = localtime() 
     let g:ctags = system("~/.vim/shell/make-ctags.sh " . shellescape(expand('%:h')))
     let g:ctag_execcmd = "set tags+=" . g:ctags
     exec g:ctag_execcmd
     let g:time2 = localtime()
-    " echo g:ctag_execcmd "escape time:" (g:time2 - g:time1)"s"
+    echom g:ctag_execcmd "escape time:" (g:time2 - g:time1)"s"
     return
 endif
 
-" 一键更新ctags & cscope..
-if a:cmd == 50
-    " exec g:ctag_execcmd
-    " cs kill -1
-    " exec g:cscope_cmd
-    return
-endif
-
-if a:cmd == 51
-    echo "Start make cscope.."
-    let t1 = localtime() 
-    let db = system("~/.vim/shell/cscope.sh " . shellescape(expand('%:p')))
-    let path = strpart(db, 0, match(db, "cscope.out")) " 必须这样截取,否则多余的结束符^@会导致cs add 异常. 
-    let g:cscope_cmd = "cs add " . path . "cscope.out"
-    echo g:cscope_cmd
-    cs kill -1
-    exec g:cscope_cmd
-    let t2 = localtime()
-    echo "escape time:" (t2 - t1)"s"
-    return
-endif
-
-" 监听执行命令
-if a:cmd == 52
-    " let cwd = getcwd()
-    " echo "cwd:" cwd
-    return
-endif
 
 
 if a:cmd == 6
@@ -356,6 +310,7 @@ if a:cmd == 6
         let g:rehash256 = 0
         exec "set background=dark" 
         exec "set t_Co=32"
+        echom "colorscheme solarized"
         return
     endif
     if g:themes_flag == 1
@@ -365,6 +320,7 @@ if a:cmd == 6
         let g:rehash256 = 1
         exec "set background=dark" 
         exec "set t_Co=256"
+        echom "colorscheme molokai"
         return
     endif
 
@@ -375,24 +331,21 @@ if a:cmd == 6
         exec "colorscheme default"
         exec "set background=light"
         exec "set t_Co=128"
+        echom "colorscheme default"
         return
     endif
 
     if g:themes_flag == 3
-        let g:themes_flag = 1 
+        let g:themes_flag = 1
 
         exec "set background=dark"
         exec "set t_Co=256"
+        echom "colorscheme system default"
         return
     endif
     return
 endif
 
-
-if a:cmd == 70
-    exec 'TMiniBufExplorer'
-    return
-endi
 
 if a:cmd == 7
     exec 'ToggleBufExplorer'
@@ -407,6 +360,35 @@ if a:cmd == 8
         let g:quickfix = 0
         exec "copen"
     endif
+    return
+endif
+
+" 一键更新ctags & cscope..
+if a:cmd == 50
+    " exec g:ctag_execcmd
+    " cs kill -1
+    " exec g:cscope_cmd
+    return
+endif
+
+if a:cmd == 51
+    echom "Start make cscope.."
+    let t1 = localtime()
+    let db = system("~/.vim/shell/cscope.sh " . shellescape(expand('%:p')))
+    let path = strpart(db, 0, match(db, "cscope.out")) " 必须这样截取,否则多余的结束符^@会导致cs add 异常.
+    let g:cscope_cmd = "cs add " . path . "cscope.out"
+    echom g:cscope_cmd
+    cs kill -1
+    exec g:cscope_cmd
+    let t2 = localtime()
+    echom "escape time:" (t2 - t1)"s"
+    return
+endif
+
+" 监听执行命令
+if a:cmd == 52
+     let cwd = getcwd()
+     echom "cwd:" cwd
     return
 endif
 
@@ -428,12 +410,6 @@ if a:cmd == 81
     return
 endif
 
-if a:cmd == 20
-    "call MyTabLine()
-    "echo 'tab:' tab
-    return
-endif
-
 if a:cmd == 30
     let g:quit_save = 1
     exec "qall"
@@ -442,13 +418,6 @@ endif
 
 endfunction
 
-"##################################################################[TlistToggle,NERDTree]
-let NERDTreeQuitOnOpen=1 "打开文件时关闭树
-let NERDTreeShowBookmarks=1 "显示书签
-let Tlist_Show_One_File = 1 " 不同时显示多个文件的 tag ，只显示当前文件的
-let Tlist_Exit_OnlyWindow = 1 " 如果 taglist 窗口是最后一个窗口，则退出 vim
-let Tlist_Use_Right_Window = 1
-let Tlist_Auto_Open = 0
 "###################################################################[cscope]
 " http://blog.csdn.net/citongke1/article/details/8497244
 
@@ -493,10 +462,81 @@ if has("cscope")
     set csverb
 endif
 
-" set rtp+=~/.vim/bundle/vim-go
+"##################################################################[NERDTree]
+let NERDTreeQuitOnOpen=1 "打开文件时关闭树
+let NERDTreeShowBookmarks=1 "显示书签
+"##################################################################[winManager]
+"let g:NERDTree_title="[NERDTree]"
+let g:winManagerWindowLayout='NERDTree'
+
+" NOTIC!!! modefiy WinManager.vim to fixed open empty file bug:
+"function! <SID>ToggleWindowsManager()  
+"   if IsWinManagerVisible()  
+"      call s:CloseWindowsManager()  
+"   else  
+"      call s:StartWindowsManager()  
+"      exe 'q'  " ADD THIS LINE!
+"   end  
+"endfunction  
+
+"##################################################################[BufExplorer]
+"BufExplorer
+set rtp+=~/.vim/bundle/bufexplorer
+ 
+let g:bufExplorerShowRelativePath=1  " Show absolute paths.
+let g:bufExplorerSortBy='extension'
+let g:bufExplorerSortBy='fullpath'
+let g:bufExplorerSortBy='mru'
+let g:bufExplorerSortBy='name'
+let g:bufExplorerSortBy='number' 
+
+"nmap <silent> <s-F7> :BufExplorer<CR> 
+"nmap <silent> <m-F7> :BufExplorerHorizontalSplit<CR>
+"nmap <silent> <c-F7> :BufExplorerVerticalSplit<CR>
+"##################################################################[SuperTab]
+let g:SuperTabDefaultCompletionType="context" 
+
+"##################################################################[TagbarToggle]
+let g:tagbar_ctags_bin = 'ctags'  
+let g:tagbar_width = 30 
+
+"##################################################################[mru]
+set rtp+=~/.vim/bundle/mru
+let g:MRU_Max_Entries = 1000
+let g:MRU_Exclude_Files = '^/tmp/.*\|^/var/tmp/.*'  " For Unix
+let g:MRU_Include_Files = '\.c$\|\.h$\|\.S$'
+let g:MRU_Window_Height = 8
+let g:MRU_Use_Current_Window = 0
+let g:MRU_Auto_Close = 1
+let g:MRU_Max_Menu_Entries = 20
+
+"##################################################################[auto-pairs]
+set runtimepath^=~/.vim/bundle/auto-pairs
+let g:AutoPairsFlyMode = 1
+let g:AutoPairsShortcutBackInsert = '<M-b>'
+set laststatus=2
+"##################################################################[nerdcommenter] "\cc 注释当前行和选中行  
+"\cu 取消注释 
+set rtp+=~/.vim/bundle/nerdcommenter
+let g:NERDSpaceDelims = 1
+let g:NERDAltDelims_java = 1
+let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } }
+let g:NERDCommentEmptyLines = 1
+let g:NERDTrimTrailingWhitespace = 1
+let g:NERDCompactSexyComs = 1
+
+"##################################################################[ack]
+set rtp+=~/.vim/bundle/ack.vim
+let g:ackprg = '~/.vim/shell/xgrep' "find symbols and files.
+let g:ack_autoclose = 1
+let g:ackpreview = 1
+let g:ackhighlight = 1
+let g:ack_autofold_results = 0
+let g:ack_lhandler = "botright lopen 8"
+let g:ack_qhandler = "botright copen 8"
 "##################################################################[Ctrlp]
 set rtp+=~/.vim/bundle/ctrlp.vim
-:helptags ~/.vim/bundle/ctrlp.vim/doc
+":helptags ~/.vim/bundle/ctrlp.vim/doc
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_working_path_mode = 'cra'
@@ -528,101 +568,11 @@ else
     }
 endif
 
-" echo "g:ctrlp_user_command :" g:ctrlp_user_command
+" echom "g:ctrlp_user_command :" g:ctrlp_user_command
 
 let g:ctrlp_clear_cache_on_exit = 1
 let g:ctrlp_max_depth = 1000
 let g:ctrlp_max_files = 5000000
-
-
-" ctrlpFunky
-let g:ctrlp_funky_syntax_highlight = 1
-let g:ctrlp_funky_use_cache = 1
-let g:ctrlp_funky_nolim = 1
-"##################################################################[winManager]
-let g:NERDTree_title="[NERDTree]"  
-let g:winManagerWindowLayout='NERDTree'
-
-function! NERDTree_Start()  
-    exec 'NERDTree'  
-endfunction  
-  
-function! NERDTree_IsValid()  
-    return 1  
-endfunction  
-
-" NOTIC!!! modefiy WinManager.vim to fixed open empty file bug:
-"function! <SID>ToggleWindowsManager()  
-"   if IsWinManagerVisible()  
-"      call s:CloseWindowsManager()  
-"   else  
-"      call s:StartWindowsManager()  
-"      exe 'q'  " ADD THIS LINE!
-"   end  
-"endfunction  
-
-"##################################################################[MiniBufExplorer]
-let g:default_open_minibufexplorer = 0
-let g:miniBufExplMapWindowNavVim = 1   
-let g:miniBufExplMapWindowNavArrows = 1   
-let g:miniBufExplMapCTabSwitchBufs = 1   
-let g:miniBufExplModSelTarget = 1  
-let g:miniBufExplMoreThanOne=0 
-
-"BufExplorer
-set rtp+=~/.vim/bundle/bufexplorer
- 
-let g:bufExplorerShowRelativePath=0  " Show absolute paths.
-let g:bufExplorerSortBy='extension'
-let g:bufExplorerSortBy='fullpath'
-let g:bufExplorerSortBy='mru'
-let g:bufExplorerSortBy='name'
-let g:bufExplorerSortBy='number' 
-
-"nmap <silent> <s-F7> :BufExplorer<CR> 
-"nmap <silent> <m-F7> :BufExplorerHorizontalSplit<CR>
-"nmap <silent> <c-F7> :BufExplorerVerticalSplit<CR>
-"##################################################################[SuperTab]
-let g:SuperTabDefaultCompletionType="context" 
-
-"##################################################################[TagbarToggle]
-let g:tagbar_ctags_bin = 'ctags'  
-let g:tagbar_width = 30 
-
-"##################################################################[mru]
-set rtp+=~/.vim/bundle/mru
-let g:MRU_Max_Entries = 1000
-let g:MRU_Exclude_Files = '^/tmp/.*\|^/var/tmp/.*'  " For Unix
-let g:MRU_Include_Files = '\.c$\|\.h$'
-let g:MRU_Window_Height = 8
-"let g:MRU_Use_Current_Window = 1
-let g:MRU_Auto_Close = 0
-let g:MRU_Max_Menu_Entries = 20
-
-"##################################################################[auto-pairs]
-set runtimepath^=~/.vim/bundle/auto-pairs
-let g:AutoPairsFlyMode = 1
-let g:AutoPairsShortcutBackInsert = '<M-b>'
-set laststatus=2
-"##################################################################[nerdcommenter] "\cc 注释当前行和选中行  
-"\cu 取消注释 
-set rtp+=~/.vim/bundle/nerdcommenter
-let g:NERDSpaceDelims = 1
-let g:NERDAltDelims_java = 1
-let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } }
-let g:NERDCommentEmptyLines = 1
-let g:NERDTrimTrailingWhitespace = 1
-let g:NERDCompactSexyComs = 1
-
-"##################################################################[ack]
-set rtp+=~/.vim/bundle/ack.vim
-let g:ackprg = '~/.vim/shell/xgrep' "find symbols and files.
-let g:ack_autoclose = 1
-let g:ackpreview = 1
-let g:ackhighlight = 1
-let g:ack_autofold_results = 0
-let g:ack_lhandler = "botright lopen 8"
-let g:ack_qhandler = "botright copen 8"
 
 "##################################################################[resume history]
 let g:AutoSessionFile = g:Newpwd . "/session.vim"
@@ -636,8 +586,8 @@ if(expand(g:AutoCscopeFile) == findfile(expand(g:AutoCscopeFile)))
     " 必须这样截取,否则多余的结束符^@会导致cs add 异常. 
     let path = strpart(g:AutoCscopeFile, 0, match(g:AutoCscopeFile, "cscope.out")) 
     let cmd = "cs add " . path . "cscope.out"
-    " echo "path:" path
-    " echo "cmd:" cmd
+    " echom "path:" path
+    " echom "cmd:" cmd
     silent: exec cmd
 endif
 
@@ -646,11 +596,16 @@ function! LeaveHandler()
     if (g:quit_save == 1) 
         let g:path = system("~/.vim/shell/get_path.sh " . shellescape(expand('%:h')))
         let execcmd = "mks! ". g:path
-        echo execcmd
+        echom execcmd
         exec execcmd
     else
-        echo "exit but no save session.vim"
+        echom "exit but no save session.vim"
     endif
 endfunction
 
 
+function! ClearSession()
+    let g:path = system("~/.vim/shell/get_path.sh " . shellescape(expand('%:h')))
+    let execcmd = "mks! ". g:path
+    exec execcmd
+endfunction
