@@ -1,4 +1,4 @@
-####################[Install]###################
+# [Install]
 cp -a .vim ~/.vim  
 cp -a .vimrc ~/.vimrc  
 
@@ -16,9 +16,10 @@ tar zxvf v7.4.2367.tar.gz
 cd vim-7.4.2367/src/  
 sudo make && sudo make install  
 
-# Cscope:
+* Cscope:
 参考Ctags步骤  
-##################[快捷键定义]#################
+
+# [快捷键定义]
 * 1.窗口类:  
 f2    鼠标使能切换  
 \f2   行号显示切换  
@@ -66,28 +67,29 @@ ct  搜索字符串
 * 8.特殊命令:有时候vim的历史记录会有混乱，这个时候有两种方式还原:  
 1> rm -rf ~./ctags/  
 2> vim clean  
-# #################[VIM 保存与恢复会话]#################
+
+# [VIM 保存与恢复会话]
 :mksession project.vim    创建并保存当前会话  
 或  
 :mksession! project.vim   保存当前会话并覆盖原会话  
 :source    project.vim    恢复上次保存的会话  
 vim -S project.vim        打开vim并恢复上次保存的会话  
 
-# #################[VIM 挂起与恢复]#################
+# [VIM 挂起与恢复]
 Ctrl-z    挂起vim程序  
 {执行任何shell命令}  
 fg        恢复vim程序  
 '0        回到上次退出的位置，依次'1,'2...'9等  
 :marks    显示出'0到'9的标记指向哪里  
 
-# #################[VIM 执行shell命令]#################
+# [VIM 执行shell命令]
 * 格式:!{command}  
 :!ls                   在vim中执行ls指令  
 :!find ./ -name "*.c"  在vim中执行find指令  
 :!xterm&               从vim中新打开xterm  
 :shell                 从vim中打开新shell  
 
-# #################[VIM 窗口操作]#################
+# [VIM 窗口操作]
 * 1.new 命令  
 :new name 新建一个名为name的窗口  
 
@@ -112,7 +114,7 @@ ctrl + h/j/k/l  移动到左/下/上/右窗口
 :qall!   不保存退出当所有窗口  
 :wall    保存退出当所有窗口  
 
-# #################[VIM 移动和跳转操作]#################
+# [VIM 移动和跳转操作]
 ''       跳转到上次光标停留位置，两点来回跳转  
 Ctrl+o   跳转到上次光标停留位置，基于当前状态一直往前跳  
 Ctrl+i   跳回到Ctrl+o 跳过的位置  
@@ -122,7 +124,7 @@ g,       光标跳转到后一次修改位置
 [[       向下跳转到函数"{"  
 ]]       向上跳转到函数"{"  
 
-# #################[ctags 指令]#################
+# [ctags 指令]
 * 1.生产ctags的索引文件:tags  
 cd /data/proj               进入代码目录  
 ctags -R .                  搜索整个代码目录并生成tags文件  
@@ -138,7 +140,7 @@ Ctrl+t       回调到上次跳转的函数、变量、宏位置
 :stag name   分割窗口中显示name定义，光标停留在新窗口，使用":close"关闭分割窗口  
 :ptag name   预览窗口中显示name定义，光标停留在新窗口，使用":pclose"关闭预览窗口  
  
-# #################[cscope 指令]#################
+# [cscope 指令]
 * 1.生产cscope的索引文件:cscope.out  
 cd /data/proj             进入代码目录  
 cscope -Rbkq              R:表示把所有子目录里的文件也建立索引  
@@ -157,7 +159,7 @@ cscope -Rbkq              R:表示把所有子目录里的文件也建立索引
 ：cs find f               查找并打开文件，类似vim的find功能  
 ：cs find i               查找包含本文件的文件  
 
-# ############[ push code to github ]#####################
+# [ push code to github ]
 * Push:  
 * You can do :  
 
